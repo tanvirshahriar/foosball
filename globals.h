@@ -4,6 +4,8 @@
 
     #include "objects.h"
 
+    #define X_EDGE 320
+    #define Y_EDGE 240
     #define SPEED 1
 
     volatile int pixel_buffer_start;

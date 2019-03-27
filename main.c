@@ -17,6 +17,7 @@ int main(void) {
     volatile int *pixel_ctrl_ptr = (int *)0xFF203020;
 
     // Initialize the field.
+    initialize_field();
     telstar.x = 159;
     telstar.y = 119;
     telstar.velocity_x = (rand() % 2) * pow(-1, rand());
