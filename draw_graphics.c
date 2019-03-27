@@ -55,73 +55,108 @@ void clear_screen() {
 }
 
 void initialize_field() {
-    // init ball
-    telstar.x = X_EDGE/2 - 1;
-    telstar.y = Y_EDGE/2 - 1;
-    telstar.velocity_x = (rand() % 2) * pow(-1, rand());
-    telstar.velocity_y = rand() % 2 * pow(-1, rand());
+    // init BALL
+    BALL.x = X_EDGE/2 - 1;
+    BALL.y = Y_EDGE/2 - 1;
+    BALL.velocity_x = (rand() % 2) * pow(-1, rand());
+    BALL.velocity_y = (rand() % 2) * pow(-1, rand());
 
     // init gk
-    gk_blue.x = 10;
-    gk_blue.y = Y_EDGE/2 - 1;
-    gk_red.x = X_EDGE - 11;
-    gk_red.y = Y_EDGE/2 - 1;
+    GK_BLUE.x = 10;
+    GK_BLUE.y = Y_EDGE/2 - 1;
+    GK_RED.x = X_EDGE - 11;
+    GK_RED.y = Y_EDGE/2 - 1;
 
     // init def
-    def_blue[0].x = 40;
-    def_blue[0].y = (1/3) * Y_EDGE - 1;
-    def_blue[1].x = 40;
-    def_blue[1].y = (2/3) * Y_EDGE - 1;
-    def_red[0].x = X_EDGE - 41;
-    def_red[0].y = (1/3) * Y_EDGE - 1;
-    def_red[1].x = X_EDGE - 41;
-    def_red[1].y = (2/3) * Y_EDGE - 1;
+    DEF_BLUE[0].x = 40;
+    DEF_BLUE[0].y = (1/3) * Y_EDGE - 1;
+    DEF_BLUE[1].x = 40;
+    DEF_BLUE[1].y = (2/3) * Y_EDGE - 1;
+    DEF_RED[0].x = X_EDGE - 41;
+    DEF_RED[0].y = (1/3) * Y_EDGE - 1;
+    DEF_RED[1].x = X_EDGE - 41;
+    DEF_RED[1].y = (2/3) * Y_EDGE - 1;
 
     // init mid
-    mid_blue[0].x = 80;
-    mid_blue[0].y = (1/5) * Y_EDGE - 1;
-    mid_blue[1].x = 80;
-    mid_blue[1].y = (2/5) * Y_EDGE - 1;
-    mid_blue[2].x = 80;
-    mid_blue[2].y = (3/5) * Y_EDGE - 1;
-    mid_blue[3].x = 80;
-    mid_blue[3].y = (4/5) * Y_EDGE - 1;
-    mid_red[0].x = X_EDGE - 81;
-    mid_red[0].y = (1/5) * Y_EDGE - 1;
-    mid_red[1].x = X_EDGE - 81;
-    mid_red[1].y = (2/5) * Y_EDGE - 1;
-    mid_red[2].x = X_EDGE - 81;
-    mid_red[2].y = (3/5) * Y_EDGE - 1;
-    mid_red[3].x = X_EDGE - 81;
-    mid_red[3].y = (4/5) * Y_EDGE - 1;
+    MID_BLUE[0].x = 80;
+    MID_BLUE[0].y = (1/5) * Y_EDGE - 1;
+    MID_BLUE[1].x = 80;
+    MID_BLUE[1].y = (2/5) * Y_EDGE - 1;
+    MID_BLUE[2].x = 80;
+    MID_BLUE[2].y = (3/5) * Y_EDGE - 1;
+    MID_BLUE[3].x = 80;
+    MID_BLUE[3].y = (4/5) * Y_EDGE - 1;
+    MID_RED[0].x = X_EDGE - 81;
+    MID_RED[0].y = (1/5) * Y_EDGE - 1;
+    MID_RED[1].x = X_EDGE - 81;
+    MID_RED[1].y = (2/5) * Y_EDGE - 1;
+    MID_RED[2].x = X_EDGE - 81;
+    MID_RED[2].y = (3/5) * Y_EDGE - 1;
+    MID_RED[3].x = X_EDGE - 81;
+    MID_RED[3].y = (4/5) * Y_EDGE - 1;
 
     // init atk
-    atk_blue[0].x = 120;
-    atk_blue[0].y = (1/4) * Y_EDGE - 1;
-    atk_blue[1].x = 120;
-    atk_blue[1].y = (2/4) * Y_EDGE - 1;
-    atk_blue[2].x = 120;
-    atk_blue[2].y = (3/4) * Y_EDGE - 1;
-    atk_red[0].x = X_EDGE - 121;
-    atk_red[0].y = (1/4) * Y_EDGE - 1;
-    atk_red[1].x = X_EDGE - 121;
-    atk_red[1].y = (2/4) * Y_EDGE - 1;
-    atk_red[2].x = X_EDGE - 121;
-    atk_red[2].y = (3/4) * Y_EDGE - 1;
+    ATK_BLUE[0].x = 120;
+    ATK_BLUE[0].y = (1/4) * Y_EDGE - 1;
+    ATK_BLUE[1].x = 120;
+    ATK_BLUE[1].y = (2/4) * Y_EDGE - 1;
+    ATK_BLUE[2].x = 120;
+    ATK_BLUE[2].y = (3/4) * Y_EDGE - 1;
+    ATK_RED[0].x = X_EDGE - 121;
+    ATK_RED[0].y = (1/4) * Y_EDGE - 1;
+    ATK_RED[1].x = X_EDGE - 121;
+    ATK_RED[1].y = (2/4) * Y_EDGE - 1;
+    ATK_RED[2].x = X_EDGE - 121;
+    ATK_RED[2].y = (3/4) * Y_EDGE - 1;
 
     draw_field();
 }
 
 void draw_field() {
-    int i, j;
+    int i, j, k;
 
     // green field
     for(i = 0; i < X_EDGE; i++) 
         for(j = 0; j < Y_EDGE; j++) 
             plot_pixel(i, j, 0xB3F442);
 
-    // ball
-    for(i = telstar.x - 2; i <= telstar.x + 2; i++)
-        for(j = telstar.y - 2; j <= telstar.y + 2; j++)
-            plot_pixel(i, j, 0x6A668E);
+    // BALL
+    for(i = BALL.x - 2; i <= BALL.x + 2; i++)
+        for(j = BALL.y - 2; j <= BALL.y + 2; j++)
+            plot_pixel(i, j, 0x6A668E); // Greyish
+
+    // players
+    for(i = GK_BLUE.x - X_LEN; i < GK_BLUE.x + X_LEN; i++)
+        for(i = GK_BLUE.y - Y_LEN; j < GK_BLUE.y + Y_LEN; j++)
+            plot_pixel(i, j, 0x4268F4); // Blue
+    for(i = GK_RED.x - X_LEN; i < GK_RED.x + X_LEN; i++)
+        for(i = GK_RED.y - Y_LEN; j < GK_RED.y + Y_LEN; j++)
+            plot_pixel(i, j, 0xD62A1D); // Red
+    
+    for(k = 0; k < 2; k++)
+        for(i = DEF_BLUE[k].x - X_LEN; i < DEF_BLUE[k].x + X_LEN; i++)
+            for(i = DEF_BLUE[k].y - Y_LEN; j < DEF_BLUE[k].y + Y_LEN; j++)
+                plot_pixel(i, j, 0x4268F4); // Blue
+    for(k = 0; k < 2; k++)
+        for(i = DEF_RED[k].x - X_LEN; i < DEF_RED[k].x + X_LEN; i++)
+            for(i = DEF_RED[k].y - Y_LEN; j < DEF_RED[k].y + Y_LEN; j++)
+                plot_pixel(i, j, 0xD62A1D); // Red
+    
+    for(k = 0; k < 4; k++)
+        for(i = MID_BLUE[k].x - X_LEN; i < MID_BLUE[k].x + X_LEN; i++)
+            for(i = MID_BLUE[k].y - Y_LEN; j < MID_BLUE[k].y + Y_LEN; j++)
+                plot_pixel(i, j, 0x4268f4); // Blue
+    for(k = 0; k < 4; k++)
+        for(i = MID_RED[k].x - X_LEN; i < MID_RED[k].x + X_LEN; i++)
+            for(i = MID_RED[k].y - Y_LEN; j < MID_RED[k].y + Y_LEN; j++)
+                plot_pixel(i, j, 0xD62A1D); // Red
+    
+    for(k = 0; k < 3; k++)
+        for(i = ATK_BLUE[k].x - X_LEN; i < ATK_BLUE[k].x + X_LEN; i++)
+            for(i = ATK_BLUE[k].y - Y_LEN; j < ATK_BLUE[k].y + Y_LEN; j++)
+                plot_pixel(i, j, 0x4268f4); // Blue
+    for(k = 0; k < 3; k++)
+        for(i = ATK_RED[k].x - X_LEN; i < ATK_RED[k].x + X_LEN; i++)
+            for(i = ATK_RED[k].y - Y_LEN; j < ATK_RED[k].y + Y_LEN; j++)
+                plot_pixel(i, j, 0xD62A1D); // Red
 }

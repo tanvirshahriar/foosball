@@ -6,14 +6,16 @@
 
     #define X_EDGE 320
     #define Y_EDGE 240
+    #define Y_LEN 5
+    #define X_LEN 3
     #define SPEED 1
 
     volatile int pixel_buffer_start;
 
-    Players gk_blue, gk_red;
-    Players def_blue[2], def_red[2];
-    Players mid_blue[4], mid_red[4];
-    Players atk_blue[3], atk_red[3];
-    Ball telstar;
+    Players GK_BLUE, GK_RED;
+    Players DEF_BLUE[2], DEF_RED[2];
+    Players MID_BLUE[4], MID_RED[4];
+    Players ATK_BLUE[3], ATK_RED[3];
+    Ball BALL;
 
     #endif
