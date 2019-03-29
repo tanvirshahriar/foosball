@@ -55,8 +55,81 @@ void ball_mechanics(bool goal) {
                     break;   
                 }    
             }
-            if(check_more)
-        }                
+            if(check_more) {
+                for(i = 0; i < 2; i++) {
+                    if((((BALL.x+2) == (DEF_RED[i].x-X_LEN)) || ((BALL.x-2) == (DEF_RED[i].x+X_LEN))) && (BALL.y == DEF_RED[i].y)) {
+                        BALL.velocity_x *= -1;
+                        check_more = false;
+                        break;
+                    }
+                    else if((((BALL.x+2) == (DEF_RED[i].x-X_LEN)) || ((BALL.x-2) == (DEF_RED[i].x+X_LEN))) && ((BALL.y >= DEF_RED[i].y-Y_LEN) && (BALL.y <= DEF_RED[i].y+Y_LEN))) {
+                        BALL.velocity_x *= -1;     
+                        BALL.velocity_y *= -1; 
+                        check_more = false;   
+                        break;   
+                    }                
+                }
+            }
+            else if(check_more) {
+                for(i = 0; i < 4; i++) {
+                    if((((BALL.x+2) == (MID_BLUE[i].x-X_LEN)) || ((BALL.x-2) == (MID_BLUE[i].x+X_LEN))) && (BALL.y == MID_BLUE[i].y)) {
+                        BALL.velocity_x *= -1;
+                        check_more = false;
+                        break;
+                    }
+                    else if((((BALL.x+2) == (MID_BLUE[i].x-X_LEN)) || ((BALL.x-2) == (MID_BLUE[i].x+X_LEN))) && ((BALL.y >= MID_BLUE[i].y-Y_LEN) && (BALL.y <= MID_BLUE[i].y+Y_LEN))) {
+                        BALL.velocity_x *= -1;     
+                        BALL.velocity_y *= -1; 
+                        check_more = false;   
+                        break;   
+                    }                
+                }                
+            }
+            else if(check_more) {
+                for(i = 0; i < 4; i++) {
+                    if((((BALL.x+2) == (MID_RED[i].x-X_LEN)) || ((BALL.x-2) == (MID_RED[i].x+X_LEN))) && (BALL.y == MID_RED[i].y)) {
+                        BALL.velocity_x *= -1;
+                        check_more = false;
+                        break;
+                    }
+                    else if((((BALL.x+2) == (MID_RED[i].x-X_LEN)) || ((BALL.x-2) == (MID_RED[i].x+X_LEN))) && ((BALL.y >= MID_RED[i].y-Y_LEN) && (BALL.y <= MID_RED[i].y+Y_LEN))) {
+                        BALL.velocity_x *= -1;     
+                        BALL.velocity_y *= -1; 
+                        check_more = false;   
+                        break;   
+                    }                
+                }                
+            }
+            else if(check_more) {
+                for(i = 0; i < 3; i++) {
+                    if((((BALL.x+2) == (ATK_BLUE[i].x-X_LEN)) || ((BALL.x-2) == (ATK_BLUE[i].x+X_LEN))) && (BALL.y == ATK_BLUE[i].y)) {
+                        BALL.velocity_x *= -1;
+                        check_more = false;
+                        break;
+                    }
+                    else if((((BALL.x+2) == (ATK_BLUE[i].x-X_LEN)) || ((BALL.x-2) == (ATK_BLUE[i].x+X_LEN))) && ((BALL.y >= ATK_BLUE[i].y-Y_LEN) && (BALL.y <= ATK_BLUE[i].y+Y_LEN))) {
+                        BALL.velocity_x *= -1;     
+                        BALL.velocity_y *= -1; 
+                        check_more = false;   
+                        break;   
+                    }                
+                }                
+            }
+            else if(check_more) {
+                for(i = 0; i < 3; i++) {
+                    if((((BALL.x+2) == (ATK_RED[i].x-X_LEN)) || ((BALL.x-2) == (ATK_RED[i].x+X_LEN))) && (BALL.y == ATK_RED[i].y)) {
+                        BALL.velocity_x *= -1;
+                        check_more = false;
+                        break;
+                    }
+                    else if((((BALL.x+2) == (ATK_RED[i].x-X_LEN)) || ((BALL.x-2) == (ATK_RED[i].x+X_LEN))) && ((BALL.y >= ATK_RED[i].y-Y_LEN) && (BALL.y <= ATK_RED[i].y+Y_LEN))) {
+                        BALL.velocity_x *= -1;     
+                        BALL.velocity_y *= -1; 
+                        check_more = false;   
+                        break;   
+                    }                
+                }                
+            }                            
         // Hits a boundary.
         if(((BALL.x-2) == 0) || ((BALL.x+2) == X_EDGE))
             BALL.velocity_x *= -1;
