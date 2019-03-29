@@ -16,11 +16,13 @@ void wait_for_vsync();
 
 // Forward declarations.
 int p1_sel=0, p2_sel=0;
+int p1_score=0, p2_score=0;
 
 int main(void) {
     // Variables.
     volatile int *pixel_ctrl_ptr = (int *)0xFF203020;
     volatile int *PS2_ptr = (int *)PS2_BASE;
+    bool goal = false;
 
     // PS2 input.
     int PS2_data, RVALID;
@@ -42,9 +44,14 @@ int main(void) {
         // Clear before every draw.
         clear_screen();
         // Update game.
-        ball_mechanics();
+        ball_mechanics(goal);
         // Redraw game.
-        draw_field();
+        if(goal) {
+            initialize_field();
+            goal = false;
+        }
+        else
+            draw_field();
         
         wait_for_vsync(); // Swap front and back buffers on VGA vertical sync.
         pixel_buffer_start = *(pixel_ctrl_ptr + 1); // New back buffer.

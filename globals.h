@@ -13,6 +13,7 @@
     extern volatile int pixel_buffer_start;
     extern int ps2_byte_1, ps2_byte_2, ps2_byte_3;
 
+    extern p1_score, p2_score;
     extern int p1_sel, p2_sel;
     extern Players GK_BLUE, GK_RED;
     extern Players DEF_BLUE[2], DEF_RED[2];

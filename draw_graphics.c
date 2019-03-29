@@ -62,9 +62,9 @@ void initialize_field() {
     BALL.velocity_y = (rand() % 2) * pow(-1, rand());
 
     // init gk
-    GK_BLUE.x = 10;
+    GK_BLUE.x = 20;
     GK_BLUE.y = Y_EDGE/2 - 1;
-    GK_RED.x = X_EDGE - 11;
+    GK_RED.x = X_EDGE - 21;
     GK_RED.y = Y_EDGE/2 - 1;
 
     // init def
@@ -118,7 +118,15 @@ void draw_field() {
     // green field
     for(i = 0; i < X_EDGE; i++) 
         for(j = 0; j < Y_EDGE; j++) 
-            plot_pixel(i, j, 0xB3F442);
+            plot_pixel(i, j, 0xB3F442); // Green yo
+
+    // goal post
+    for(i = 0; i < 5; i++) {
+        for(j = (Y_EDGE/2)-10; j < (Y_EDGE/2)+10; j++) {
+            plot_pixel(i, j, 0xF4DC42); // Brownish
+            plot_pixel(X_EDGE - i, j, 0xF4DC42);
+        }
+    }
 
     // BALL
     for(i = BALL.x - 2; i <= BALL.x + 2; i++)
