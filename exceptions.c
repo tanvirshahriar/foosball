@@ -2,7 +2,14 @@
 
 void config_PS2() {
     volatile int *PS2_ptr = (int *) 0xFF200100;
+    *(PS2_ptr) = 0xFF; // Reset
     *(PS2_ptr + 1) = 1;
+}
+
+// setup the KEY interrupts in the FPGA.
+void config_KEYs() {
+    volatile int * KEY_ptr = (int *) 0xFF200050; // pushbutton KEY address
+    *(KEY_ptr + 2) = 0xF; // enable interrupts for all four KEYs
 }
 
 // Define the IRQ exception handler.
@@ -175,23 +182,61 @@ void enable_A9_interrupts(void) {
 }
 
 // Configure the Generic Interrupt Controller (GIC).
-void config_GIC(void) {
-    /* configure the HPS timer interrupt */
-    *((int *) 0xFFFED8C4) = 0x01000000;
-    *((int *) 0xFFFED118) = 0x00000080;
-    /* configure the FPGA interval timer and KEYs interrupts */
-    *((int *) 0xFFFED848) = 0x00000101;
-    *((int *) 0xFFFED108) = 0x00000300;
-    // Set Interrupt Priority Mask Register (ICCPMR). Enable interrupts of all priorities
-    *((int *) 0xFFFEC104) = 0xFFFF;
-    // Set CPU Interface Control Register (ICCICR). Enable signaling of interrupts
-    *((int *) 0xFFFEC100) = 1; // enable = 1
-    // Configure the Distributor Control Register (ICDDCR) to send pending interrupts to CPUs
-    *((int *) 0xFFFED000) = 1; // enable = 1
+void config_GIC(void)
+{
+	int address;	// used to calculate register addresses
+
+	/* enable some examples of interrupts */
+  	config_interrupt(73, CPU0); 
+    config_interrupt(79, CPU0);
+
+  	// Set Interrupt Priority Mask Register (ICCPMR). Enable interrupts for lowest priority 
+	address = MPCORE_GIC_CPUIF + ICCPMR;
+  	*((int *) address) = 0xFFFF;       
+
+  	// Set CPU Interface Control Register (ICCICR). Enable signaling of interrupts
+	address = MPCORE_GIC_CPUIF + ICCICR;
+	*((int *) address) = ENABLE;
+
+	// Configure the Distributor Control Register (ICDDCR) to send pending interrupts to CPUs 
+	address = MPCORE_GIC_DIST + ICDDCR;
+	*((int *) address) = ENABLE;   
 }
 
-// setup the KEY interrupts in the FPGA.
-void config_KEYs() {
-    volatile int * KEY_ptr = (int *) 0xFF200050; // pushbutton KEY address
-    *(KEY_ptr + 2) = 0xF; // enable interrupts for all four KEYs
+/* 
+ * Configure registers in the GIC for individual interrupt IDs.
+*/
+void config_interrupt (int int_ID, int CPU_target)
+{
+	int n, addr_offset, value, address;
+	/* Set Interrupt Processor Targets Register (ICDIPTRn) to cpu0. 
+	 * n = integer_div(int_ID / 4) * 4
+	 * addr_offet = #ICDIPTR + n
+	 * value = CPU_target << ((int_ID & 0x3) * 8)
+	 */
+	n = (int_ID >> 2) << 2;
+	addr_offset = ICDIPTR + n;
+	value = CPU_target << ((int_ID & 0x3) << 3);
+	
+	/* Now that we know the register address and value, we need to set the correct bits in 
+	 * the GIC register, without changing the other bits */
+	address = MPCORE_GIC_DIST + addr_offset;
+	hw_write_bits((int *) address, 0xff << ((int_ID & 0x3) << 3), value);  
+    
+	/* Set Interrupt Set-Enable Registers (ICDISERn). 
+	 * n = (integer_div(in_ID / 32) * 4
+	 * addr_offset = 0x100 + n
+	 * value = enable << (int_ID & 0x1F) */
+	n = (int_ID >> 5) << 2; 
+	addr_offset = ICDISER + n;
+	value = 0x1 << (int_ID & 0x1f);
+	/* Now that we know the register address and value, we need to set the correct bits in 
+	 * the GIC register, without changing the other bits */
+	address = MPCORE_GIC_DIST + addr_offset;
+	hw_write_bits((int *) address, 0x1 << (int_ID & 0x1f), value);    
+}
+
+void hw_write_bits(volatile int * addr, volatile int unmask, volatile int value)
+{     
+    *addr = ((~unmask) & *addr) | value;
 }

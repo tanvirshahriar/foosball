@@ -3,6 +3,10 @@
 #define EXCEPTIONS_H
 
 #include "globals.h"
+#include "address_map_arm.h"
+
+#define		CPU0	    0x01	// bit-mask; bit 0 represents cpu0
+#define		ENABLE		0x1
 
 // Forward declarations.
 int ps2_byte_1, ps2_byte_2, ps2_byte_3;
