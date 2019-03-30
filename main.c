@@ -27,6 +27,8 @@ Ball BALL;
 
 
 int main(void) {
+    void set_A9_IRQ_stack(void);
+    
     // Variables.
     volatile int *pixel_ctrl_ptr = (int *)0xFF203020;
     bool goal = false;

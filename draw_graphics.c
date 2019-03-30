@@ -118,53 +118,58 @@ void draw_field() {
     // green field
     for(i = 0; i < X_EDGE; i++) 
         for(j = 0; j < Y_EDGE; j++) 
-            plot_pixel(i, j, 0xB3F442); // Green yo
+            plot_pixel(i, j, 0x07E0); // Green yo
 
     // goal post
     for(i = 0; i < 5; i++) {
         for(j = (Y_EDGE/2)-10; j < (Y_EDGE/2)+10; j++) {
-            plot_pixel(i, j, 0xF4DC42); // Brownish
-            plot_pixel(X_EDGE - i, j, 0xF4DC42);
+            plot_pixel(i, j, 0xEC64); // Brownish
+            plot_pixel(X_EDGE - i, j, 0x82C9);
         }
     }
 
     // BALL
     for(i = BALL.x - 2; i <= BALL.x + 2; i++)
         for(j = BALL.y - 2; j <= BALL.y + 2; j++)
-            plot_pixel(i, j, 0x6A668E); // Greyish
+            plot_pixel(i, j, 0x41A5); // Greyish
 
     // players
-    for(i = GK_BLUE.x - X_LEN; i < GK_BLUE.x + X_LEN; i++)
-        for(i = GK_BLUE.y - Y_LEN; j < GK_BLUE.y + Y_LEN; j++)
-            plot_pixel(i, j, 0x4268F4); // Blue
-    for(i = GK_RED.x - X_LEN; i < GK_RED.x + X_LEN; i++)
-        for(i = GK_RED.y - Y_LEN; j < GK_RED.y + Y_LEN; j++)
-            plot_pixel(i, j, 0xD62A1D); // Red
+    for(i = GK_BLUE.x - X_LEN; i <= GK_BLUE.x + X_LEN; i++)
+        for(j = GK_BLUE.y - Y_LEN; j <= GK_BLUE.y + Y_LEN; j++)
+            plot_pixel(i, j, 0x14BC); // Blue
+    
+    for(i = GK_RED.x - X_LEN; i <= GK_RED.x + X_LEN; i++)
+        for(j = GK_RED.y - Y_LEN; j <= GK_RED.y + Y_LEN; j++)
+            plot_pixel(i, j, 0xF1E0); // Red
+    
+    // Def.
+    for(k = 0; k < 2; k++)
+        for(i = DEF_BLUE[k].x - X_LEN; i <= DEF_BLUE[k].x + X_LEN; i++)
+            for(j = DEF_BLUE[k].y - Y_LEN; j <= DEF_BLUE[k].y + Y_LEN; j++)
+                plot_pixel(i, j, 0x14BC); // Blue
     
     for(k = 0; k < 2; k++)
-        for(i = DEF_BLUE[k].x - X_LEN; i < DEF_BLUE[k].x + X_LEN; i++)
-            for(i = DEF_BLUE[k].y - Y_LEN; j < DEF_BLUE[k].y + Y_LEN; j++)
-                plot_pixel(i, j, 0x4268F4); // Blue
-    for(k = 0; k < 2; k++)
-        for(i = DEF_RED[k].x - X_LEN; i < DEF_RED[k].x + X_LEN; i++)
-            for(i = DEF_RED[k].y - Y_LEN; j < DEF_RED[k].y + Y_LEN; j++)
-                plot_pixel(i, j, 0xD62A1D); // Red
+        for(i = DEF_RED[k].x - X_LEN; i <= DEF_RED[k].x + X_LEN; i++)
+            for(j = DEF_RED[k].y - Y_LEN; j <= DEF_RED[k].y + Y_LEN; j++)
+                plot_pixel(i, j, 0xF1E0); // Red
     
+    // Mid.
     for(k = 0; k < 4; k++)
         for(i = MID_BLUE[k].x - X_LEN; i < MID_BLUE[k].x + X_LEN; i++)
-            for(i = MID_BLUE[k].y - Y_LEN; j < MID_BLUE[k].y + Y_LEN; j++)
-                plot_pixel(i, j, 0x4268f4); // Blue
+            for(j = MID_BLUE[k].y - Y_LEN; j < MID_BLUE[k].y + Y_LEN; j++)
+                plot_pixel(i, j, 0x14BC); // Blue
     for(k = 0; k < 4; k++)
         for(i = MID_RED[k].x - X_LEN; i < MID_RED[k].x + X_LEN; i++)
-            for(i = MID_RED[k].y - Y_LEN; j < MID_RED[k].y + Y_LEN; j++)
-                plot_pixel(i, j, 0xD62A1D); // Red
+            for(j = MID_RED[k].y - Y_LEN; j < MID_RED[k].y + Y_LEN; j++)
+                plot_pixel(i, j, 0xF1E0); // Red
     
+    // Atk.
     for(k = 0; k < 3; k++)
         for(i = ATK_BLUE[k].x - X_LEN; i < ATK_BLUE[k].x + X_LEN; i++)
-            for(i = ATK_BLUE[k].y - Y_LEN; j < ATK_BLUE[k].y + Y_LEN; j++)
-                plot_pixel(i, j, 0x4268f4); // Blue
+            for(j = ATK_BLUE[k].y - Y_LEN; j < ATK_BLUE[k].y + Y_LEN; j++)
+                plot_pixel(i, j, 0x14BC); // Blue
     for(k = 0; k < 3; k++)
         for(i = ATK_RED[k].x - X_LEN; i < ATK_RED[k].x + X_LEN; i++)
-            for(i = ATK_RED[k].y - Y_LEN; j < ATK_RED[k].y + Y_LEN; j++)
-                plot_pixel(i, j, 0xD62A1D); // Red
+            for(j = ATK_RED[k].y - Y_LEN; j < ATK_RED[k].y + Y_LEN; j++)
+                plot_pixel(i, j, 0xF1E0); // Red
 }

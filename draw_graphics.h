@@ -6,6 +6,7 @@
 #include "utils.h"
 #include <stdbool.h>
 #include <math.h>
+#include <stdlib.h>
 
 // Forward declarations.
 extern volatile int pixel_buffer_start;
@@ -21,5 +22,6 @@ void draw_line(int x0, int y0, int x1, int y1, short int line_color);
 void clear_screen();
 void initialize_field();
 void draw_field();
+//void draw_players(int num_players, Players position);
 
 #endif
