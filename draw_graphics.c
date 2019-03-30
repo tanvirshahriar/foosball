@@ -69,45 +69,45 @@ void initialize_field() {
 
     // init def
     DEF_BLUE[0].x = 40;
-    DEF_BLUE[0].y = (1/3) * Y_EDGE - 1;
+    DEF_BLUE[0].y = Y_EDGE/3 - 1;
     DEF_BLUE[1].x = 40;
-    DEF_BLUE[1].y = (2/3) * Y_EDGE - 1;
+    DEF_BLUE[1].y = 2 * Y_EDGE / 3 - 1;
     DEF_RED[0].x = X_EDGE - 41;
-    DEF_RED[0].y = (1/3) * Y_EDGE - 1;
+    DEF_RED[0].y = Y_EDGE/3 - 1;
     DEF_RED[1].x = X_EDGE - 41;
-    DEF_RED[1].y = (2/3) * Y_EDGE - 1;
+    DEF_RED[1].y = 2 * Y_EDGE / 3 - 1;
 
     // init mid
     MID_BLUE[0].x = 80;
-    MID_BLUE[0].y = (1/5) * Y_EDGE - 1;
+    MID_BLUE[0].y = 1 * Y_EDGE / 5 - 1;
     MID_BLUE[1].x = 80;
-    MID_BLUE[1].y = (2/5) * Y_EDGE - 1;
+    MID_BLUE[1].y = 2 * Y_EDGE / 5 - 1;
     MID_BLUE[2].x = 80;
-    MID_BLUE[2].y = (3/5) * Y_EDGE - 1;
+    MID_BLUE[2].y = 3 * Y_EDGE / 5 - 1;
     MID_BLUE[3].x = 80;
-    MID_BLUE[3].y = (4/5) * Y_EDGE - 1;
+    MID_BLUE[3].y = 4 * Y_EDGE / 5 - 1;
     MID_RED[0].x = X_EDGE - 81;
-    MID_RED[0].y = (1/5) * Y_EDGE - 1;
+    MID_RED[0].y = 1 * Y_EDGE / 5 - 1;
     MID_RED[1].x = X_EDGE - 81;
-    MID_RED[1].y = (2/5) * Y_EDGE - 1;
+    MID_RED[1].y = 2 * Y_EDGE / 5 - 1;
     MID_RED[2].x = X_EDGE - 81;
-    MID_RED[2].y = (3/5) * Y_EDGE - 1;
+    MID_RED[2].y = 3 * Y_EDGE / 5 - 1;
     MID_RED[3].x = X_EDGE - 81;
-    MID_RED[3].y = (4/5) * Y_EDGE - 1;
+    MID_RED[3].y = 4 * Y_EDGE / 5 - 1;
 
     // init atk
     ATK_BLUE[0].x = 120;
-    ATK_BLUE[0].y = (1/4) * Y_EDGE - 1;
+    ATK_BLUE[0].y = 1 * Y_EDGE / 4 - 1;
     ATK_BLUE[1].x = 120;
-    ATK_BLUE[1].y = (2/4) * Y_EDGE - 1;
+    ATK_BLUE[1].y = 2 * Y_EDGE / 4 - 1;
     ATK_BLUE[2].x = 120;
-    ATK_BLUE[2].y = (3/4) * Y_EDGE - 1;
+    ATK_BLUE[2].y = 3 * Y_EDGE / 4 - 1;
     ATK_RED[0].x = X_EDGE - 121;
-    ATK_RED[0].y = (1/4) * Y_EDGE - 1;
+    ATK_RED[0].y = 1 * Y_EDGE / 4 - 1;
     ATK_RED[1].x = X_EDGE - 121;
-    ATK_RED[1].y = (2/4) * Y_EDGE - 1;
+    ATK_RED[1].y = 2 * Y_EDGE / 4 - 1;
     ATK_RED[2].x = X_EDGE - 121;
-    ATK_RED[2].y = (3/4) * Y_EDGE - 1;
+    ATK_RED[2].y = 3 * Y_EDGE / 4 - 1;
 
     draw_field();
 }
@@ -155,21 +155,21 @@ void draw_field() {
     
     // Mid.
     for(k = 0; k < 4; k++)
-        for(i = MID_BLUE[k].x - X_LEN; i < MID_BLUE[k].x + X_LEN; i++)
-            for(j = MID_BLUE[k].y - Y_LEN; j < MID_BLUE[k].y + Y_LEN; j++)
+        for(i = MID_BLUE[k].x - X_LEN; i <= MID_BLUE[k].x + X_LEN; i++)
+            for(j = MID_BLUE[k].y - Y_LEN; j <= MID_BLUE[k].y + Y_LEN; j++)
                 plot_pixel(i, j, 0x14BC); // Blue
     for(k = 0; k < 4; k++)
-        for(i = MID_RED[k].x - X_LEN; i < MID_RED[k].x + X_LEN; i++)
-            for(j = MID_RED[k].y - Y_LEN; j < MID_RED[k].y + Y_LEN; j++)
+        for(i = MID_RED[k].x - X_LEN; i <= MID_RED[k].x + X_LEN; i++)
+            for(j = MID_RED[k].y - Y_LEN; j <= MID_RED[k].y + Y_LEN; j++)
                 plot_pixel(i, j, 0xF1E0); // Red
     
     // Atk.
     for(k = 0; k < 3; k++)
-        for(i = ATK_BLUE[k].x - X_LEN; i < ATK_BLUE[k].x + X_LEN; i++)
-            for(j = ATK_BLUE[k].y - Y_LEN; j < ATK_BLUE[k].y + Y_LEN; j++)
+        for(i = ATK_BLUE[k].x - X_LEN; i <= ATK_BLUE[k].x + X_LEN; i++)
+            for(j = ATK_BLUE[k].y - Y_LEN; j <= ATK_BLUE[k].y + Y_LEN; j++)
                 plot_pixel(i, j, 0x14BC); // Blue
     for(k = 0; k < 3; k++)
-        for(i = ATK_RED[k].x - X_LEN; i < ATK_RED[k].x + X_LEN; i++)
-            for(j = ATK_RED[k].y - Y_LEN; j < ATK_RED[k].y + Y_LEN; j++)
+        for(i = ATK_RED[k].x - X_LEN; i <= ATK_RED[k].x + X_LEN; i++)
+            for(j = ATK_RED[k].y - Y_LEN; j <= ATK_RED[k].y + Y_LEN; j++)
                 plot_pixel(i, j, 0xF1E0); // Red
 }
