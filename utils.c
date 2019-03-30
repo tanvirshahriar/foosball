@@ -70,7 +70,7 @@ void ball_mechanics(bool goal) {
                     }                
                 }
             }
-            else if(check_more) {
+            if(check_more) {
                 for(i = 0; i < 4; i++) {
                     if((((BALL.x+2) == (MID_BLUE[i].x-X_LEN)) || ((BALL.x-2) == (MID_BLUE[i].x+X_LEN))) && (BALL.y == MID_BLUE[i].y)) {
                         BALL.velocity_x *= -1;
@@ -85,7 +85,7 @@ void ball_mechanics(bool goal) {
                     }                
                 }                
             }
-            else if(check_more) {
+            if(check_more) {
                 for(i = 0; i < 4; i++) {
                     if((((BALL.x+2) == (MID_RED[i].x-X_LEN)) || ((BALL.x-2) == (MID_RED[i].x+X_LEN))) && (BALL.y == MID_RED[i].y)) {
                         BALL.velocity_x *= -1;
@@ -100,7 +100,7 @@ void ball_mechanics(bool goal) {
                     }                
                 }                
             }
-            else if(check_more) {
+            if(check_more) {
                 for(i = 0; i < 3; i++) {
                     if((((BALL.x+2) == (ATK_BLUE[i].x-X_LEN)) || ((BALL.x-2) == (ATK_BLUE[i].x+X_LEN))) && (BALL.y == ATK_BLUE[i].y)) {
                         BALL.velocity_x *= -1;
@@ -115,7 +115,7 @@ void ball_mechanics(bool goal) {
                     }                
                 }                
             }
-            else if(check_more) {
+            if(check_more) {
                 for(i = 0; i < 3; i++) {
                     if((((BALL.x+2) == (ATK_RED[i].x-X_LEN)) || ((BALL.x-2) == (ATK_RED[i].x+X_LEN))) && (BALL.y == ATK_RED[i].y)) {
                         BALL.velocity_x *= -1;
