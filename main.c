@@ -17,19 +17,19 @@ void wait_for_vsync();
 // Forward declarations.
 int p1_sel=0, p2_sel=0;
 int p1_score=0, p2_score=0;
+volatile int pixel_buffer_start;
+int ps2_byte_1, ps2_byte_2, ps2_byte_3;
+Players GK_BLUE, GK_RED;
+Players DEF_BLUE[2], DEF_RED[2];
+Players MID_BLUE[4], MID_RED[4];
+Players ATK_BLUE[3], ATK_RED[3];
+Ball BALL;
+
 
 int main(void) {
     // Variables.
     volatile int *pixel_ctrl_ptr = (int *)0xFF203020;
-    volatile int *PS2_ptr = (int *)PS2_BASE;
     bool goal = false;
-
-    // PS2 input.
-    int PS2_data, RVALID;
-    *(PS2_ptr) = 0xFF; // Reset
-
-    // Initialize the field.
-    initialize_field();
 
     // Set up VGA buffer.
     *(pixel_ctrl_ptr + 1) = 0xC8000000;
@@ -38,6 +38,9 @@ int main(void) {
     clear_screen();
     *(pixel_ctrl_ptr + 1) = 0xC0000000;
     pixel_buffer_start = *(pixel_ctrl_ptr + 1);
+
+    // Initialize the field.
+    initialize_field();
 
     // All drawing goes in this loop.
     while (1) {

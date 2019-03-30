@@ -129,14 +129,15 @@ void ball_mechanics(bool goal) {
                         break;   
                     }                
                 }                
-            }                            
-        // Hits a boundary.
-        if(((BALL.x-2) == 0) || ((BALL.x+2) == X_EDGE))
-            BALL.velocity_x *= -1;
-        if(((BALL.y-2) == 0) || ((BALL.y+2) == Y_EDGE))
-            BALL.velocity_y *= -1;        
-        // Free to move.
-        BALL.x += BALL.velocity_x;
-        BALL.y += BALL.velocity_y;
-    }
+            }    
+        }  
+    }                      
+    // Hits a boundary.
+    if(((BALL.x-2) == 0) || ((BALL.x+2) == X_EDGE))
+        BALL.velocity_x *= -1;
+    if(((BALL.y-2) == 0) || ((BALL.y+2) == Y_EDGE))
+        BALL.velocity_y *= -1;        
+    // Free to move.
+    BALL.x += BALL.velocity_x;
+    BALL.y += BALL.velocity_y;
 }
