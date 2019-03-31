@@ -78,35 +78,35 @@ void initialize_field() {
     DEF_RED[1].y = 2 * Y_EDGE / 3 - 1;
 
     // init mid
-    MID_BLUE[0].x = 80;
+    MID_BLUE[0].x = 120;
     MID_BLUE[0].y = 1 * Y_EDGE / 5 - 1;
-    MID_BLUE[1].x = 80;
+    MID_BLUE[1].x = 120;
     MID_BLUE[1].y = 2 * Y_EDGE / 5 - 1;
-    MID_BLUE[2].x = 80;
+    MID_BLUE[2].x = 120;
     MID_BLUE[2].y = 3 * Y_EDGE / 5 - 1;
-    MID_BLUE[3].x = 80;
+    MID_BLUE[3].x = 120;
     MID_BLUE[3].y = 4 * Y_EDGE / 5 - 1;
-    MID_RED[0].x = X_EDGE - 81;
+    MID_RED[0].x = X_EDGE - 121;
     MID_RED[0].y = 1 * Y_EDGE / 5 - 1;
-    MID_RED[1].x = X_EDGE - 81;
+    MID_RED[1].x = X_EDGE - 121;
     MID_RED[1].y = 2 * Y_EDGE / 5 - 1;
-    MID_RED[2].x = X_EDGE - 81;
+    MID_RED[2].x = X_EDGE - 121;
     MID_RED[2].y = 3 * Y_EDGE / 5 - 1;
-    MID_RED[3].x = X_EDGE - 81;
+    MID_RED[3].x = X_EDGE - 121;
     MID_RED[3].y = 4 * Y_EDGE / 5 - 1;
 
     // init atk
-    ATK_BLUE[0].x = 120;
+    ATK_BLUE[0].x = X_EDGE - 81;
     ATK_BLUE[0].y = 1 * Y_EDGE / 4 - 1;
-    ATK_BLUE[1].x = 120;
+    ATK_BLUE[1].x = X_EDGE - 81;
     ATK_BLUE[1].y = 2 * Y_EDGE / 4 - 1;
-    ATK_BLUE[2].x = 120;
+    ATK_BLUE[2].x = X_EDGE - 81;
     ATK_BLUE[2].y = 3 * Y_EDGE / 4 - 1;
-    ATK_RED[0].x = X_EDGE - 121;
+    ATK_RED[0].x = 80;
     ATK_RED[0].y = 1 * Y_EDGE / 4 - 1;
-    ATK_RED[1].x = X_EDGE - 121;
+    ATK_RED[1].x = 80;
     ATK_RED[1].y = 2 * Y_EDGE / 4 - 1;
-    ATK_RED[2].x = X_EDGE - 121;
+    ATK_RED[2].x = 80;
     ATK_RED[2].y = 3 * Y_EDGE / 4 - 1;
 
     draw_field();

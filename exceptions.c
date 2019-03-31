@@ -1,5 +1,56 @@
 #include "exceptions.h"
 
+// Define the exception handlers here 
+void __attribute__ ((interrupt)) __cs3_reset (void)
+{
+    while(1);
+}
+
+void __attribute__ ((interrupt)) __cs3_isr_undef (void)
+{
+    while(1);
+}
+
+void __attribute__ ((interrupt)) __cs3_isr_swi (void)
+{
+    while(1);
+}
+
+void __attribute__ ((interrupt)) __cs3_isr_pabort (void)
+{
+    while(1);
+}
+
+void __attribute__ ((interrupt)) __cs3_isr_dabort (void)
+{
+    while(1);
+}
+
+void __attribute__ ((interrupt)) __cs3_isr_irq (void)
+{
+	// Read the ICCIAR from the processor interface 
+	int address = MPCORE_GIC_CPUIF + ICCIAR; 
+	int int_ID = *((int *) address); 
+   
+	if (int_ID == KEYS_IRQ)	// check if interrupt is from the private timer
+		KEY_ISR ();
+	else if (int_ID == PS2_IRQ)				// check if interrupt is from the PS/2
+		PS2_ISR ();
+	else
+		while (1);									// if unexpected, then halt
+
+	// Write to the End of Interrupt Register (ICCEOIR)
+	address = MPCORE_GIC_CPUIF + ICCEOIR;
+	*((int *) address) = int_ID;
+
+	return;
+} 
+
+void __attribute__ ((interrupt)) __cs3_isr_fiq (void)
+{
+    while(1);
+}
+
 void config_PS2() {
     volatile int *PS2_ptr = (int *) 0xFF200100;
     *(PS2_ptr) = 0xFF; // Reset
@@ -12,39 +63,6 @@ void config_KEYs() {
     *(KEY_ptr + 2) = 0xF; // enable interrupts for all four KEYs
 }
 
-// Define the IRQ exception handler.
-void __attribute__ ((interrupt)) __cs3_isr_irq (void) {
-    // Read the ICCIAR.
-    int int_ID = *((int *) 0xFFFEC10C);
-
-    if (int_ID == 79) // check if interrupt is from PS2 device.
-        PS2_ISR();
-    else if (int_ID == 73) // check if interrupt is from the KEYs.
-        KEY_ISR();
-    else
-        while (1) // Unexpected.
-
-    // Write to ICCEOIR.
-    *((int *) 0xFFFEC110) = int_ID;
-    return;
-}
-
-// Define the remaining exception handlers.
-void __attribute__ ((interrupt)) __cs3_isr_undef (void) {
-    while (1);
-}
-void __attribute__ ((interrupt)) __cs3_isr_swi (void) {
-    while (1);
-}
-void __attribute__ ((interrupt)) __cs3_isr_pabort (void) {
-    while (1);
-}
-void __attribute__ ((interrupt)) __cs3_isr_dabort (void) {
-    while (1);
-}
-void __attribute__ ((interrupt)) __cs3_isr_fiq (void) {
-    while (1);
-}
 
 // PS2 service routine.
 void PS2_ISR() {
@@ -72,21 +90,21 @@ void PS2_ISR() {
             if(p2_sel == 3) p2_sel = 0;
             else p2_sel++; // D
         }
-        else if(ps2_byte_2 == 0xF0 && ps2_byte_3 == 0x1B) {
+        else if(ps2_byte_2 == 0xF0 && ps2_byte_3 == 0x1C) {
             if(p2_sel == 0) p2_sel = 3;
             else p2_sel--; // A
         }
         else if(ps2_byte_1 == 0xE0 && ps2_byte_2 == 0xF0 && ps2_byte_3 == 0x75) {
-            p1_move(1); // UP
+            p1_move(-1); // UP
         }
         else if(ps2_byte_1 == 0xE0 && ps2_byte_2 == 0xF0 && ps2_byte_3 == 0x72) {
-            p1_move(-1); // DOWN
+            p1_move(1); // DOWN
         }
         else if(ps2_byte_2 == 0xF0 && ps2_byte_3 == 0x1D) {
-            p2_move(1); // W
+            p2_move(-1); // W
         }
         else if(ps2_byte_2 == 0xF0 && ps2_byte_3 == 0x1B) {
-            p2_move(-1); // S
+            p2_move(1); // S
         }
         else {
             return;
@@ -97,27 +115,27 @@ void PS2_ISR() {
 // Move player 1 objects.
 void p1_move(int pos_change) {
     if(p1_sel == 0) {
-        if((GK_BLUE.y == 0) && (pos_change == -1)) return;
-        if((GK_BLUE.y == 239) && (pos_change == 1)) return;
+        if((GK_BLUE.y-Y_LEN == 0) && (pos_change == -1)) return;
+        if((GK_BLUE.y+Y_LEN == 239) && (pos_change == 1)) return;
         GK_BLUE.y += pos_change;
     }
     if(p1_sel == 1) {
-        if((DEF_BLUE[0].y == 0) && (pos_change == -1)) return;
-        if((DEF_BLUE[1].y == 239) && (pos_change == 1)) return;
+        if((DEF_BLUE[0].y-Y_LEN == 0) && (pos_change == -1)) return;
+        if((DEF_BLUE[1].y+Y_LEN == 239) && (pos_change == 1)) return;
         DEF_BLUE[0].y += pos_change;
         DEF_BLUE[1].y += pos_change;
     }
     if(p1_sel == 2) {
-        if((MID_BLUE[0].y == 0) && (pos_change == -1)) return;
-        if((MID_BLUE[3].y == 239) && (pos_change == 1)) return;
+        if((MID_BLUE[0].y-Y_LEN == 0) && (pos_change == -1)) return;
+        if((MID_BLUE[3].y+Y_LEN == 239) && (pos_change == 1)) return;
         MID_BLUE[0].y += pos_change;
         MID_BLUE[1].y += pos_change;
         MID_BLUE[2].y += pos_change;
         MID_BLUE[3].y += pos_change;
     }
     if(p1_sel == 3) {
-        if((ATK_BLUE[0].y == 0) && (pos_change == -1)) return;
-        if((ATK_BLUE[2].y == 239) && (pos_change == 1)) return;
+        if((ATK_BLUE[0].y-Y_LEN == 0) && (pos_change == -1)) return;
+        if((ATK_BLUE[2].y+Y_LEN == 239) && (pos_change == 1)) return;
         ATK_BLUE[0].y += pos_change;
         ATK_BLUE[1].y += pos_change;
         ATK_BLUE[2].y += pos_change;
@@ -126,28 +144,28 @@ void p1_move(int pos_change) {
 
 // Move player 2 objects.
 void p2_move(int pos_change) {
-    if(p2_sel == 0) {
-        if((GK_RED.y == 0) && (pos_change == -1)) return;
-        if((GK_RED.y == 239) && (pos_change == 1)) return;
+    if(p2_sel == 3) {
+        if((GK_RED.y-Y_LEN == 0) && (pos_change == -1)) return;
+        if((GK_RED.y+Y_LEN == 239) && (pos_change == 1)) return;
         GK_RED.y += pos_change;
     }
-    if(p2_sel == 1) {
-        if((DEF_RED[0].y == 0) && (pos_change == -1)) return;
-        if((DEF_RED[1].y == 239) && (pos_change == 1)) return;
+    if(p2_sel == 2) {
+        if((DEF_RED[0].y-Y_LEN == 0) && (pos_change == -1)) return;
+        if((DEF_RED[1].y+Y_LEN == 239) && (pos_change == 1)) return;
         DEF_RED[0].y += pos_change;
         DEF_RED[1].y += pos_change;
     }
-    if(p2_sel == 2) {
-        if((MID_RED[0].y == 0) && (pos_change == -1)) return;
-        if((MID_RED[3].y == 239) && (pos_change == 1)) return;
+    if(p2_sel == 1) {
+        if((MID_RED[0].y-Y_LEN == 0) && (pos_change == -1)) return;
+        if((MID_RED[3].y+Y_LEN == 239) && (pos_change == 1)) return;
         MID_RED[0].y += pos_change;
         MID_RED[1].y += pos_change;
         MID_RED[2].y += pos_change;
         MID_RED[3].y += pos_change;
     }
-    if(p2_sel == 3) {
-        if((ATK_RED[0].y == 0) && (pos_change == -1)) return;
-        if((ATK_RED[2].y == 239) && (pos_change == 1)) return;
+    if(p2_sel == 0) {
+        if((ATK_RED[0].y-Y_LEN == 0) && (pos_change == -1)) return;
+        if((ATK_RED[2].y+Y_LEN == 239) && (pos_change == 1)) return;
         ATK_RED[0].y += pos_change;
         ATK_RED[1].y += pos_change;
         ATK_RED[2].y += pos_change;
@@ -176,9 +194,10 @@ void set_A9_IRQ_stack(void) {
 }
 
 // Turn on interrupts in the ARM processor.
-void enable_A9_interrupts(void) {
-    int status = 0b01010011;
-    asm("msr cpsr, %[ps]" : : [ps]"r"(status));
+void enable_A9_interrupts(void)
+{
+	int status = SVC_MODE | INT_ENABLE;
+	asm("msr cpsr,%[ps]" : : [ps]"r"(status));
 }
 
 // Configure the Generic Interrupt Controller (GIC).
@@ -187,8 +206,8 @@ void config_GIC(void)
 	int address;	// used to calculate register addresses
 
 	/* enable some examples of interrupts */
-  	config_interrupt(73, CPU0); 
-    config_interrupt(79, CPU0);
+  	config_interrupt (KEYS_IRQ, CPU0);
+  	config_interrupt (PS2_IRQ, CPU0);
 
   	// Set Interrupt Priority Mask Register (ICCPMR). Enable interrupts for lowest priority 
 	address = MPCORE_GIC_CPUIF + ICCPMR;

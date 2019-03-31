@@ -15,7 +15,7 @@
 void wait_for_vsync();
 
 // Forward declarations.
-int p1_sel=0, p2_sel=0;
+int p1_sel=0, p2_sel=3;
 int p1_score=0, p2_score=0;
 volatile int pixel_buffer_start;
 int ps2_byte_1, ps2_byte_2, ps2_byte_3;
@@ -27,7 +27,11 @@ Ball BALL;
 
 
 int main(void) {
-    void set_A9_IRQ_stack(void);
+    set_A9_IRQ_stack();
+    config_GIC();
+    config_PS2();
+
+    enable_A9_interrupts();
     
     // Variables.
     volatile int *pixel_ctrl_ptr = (int *)0xFF203020;

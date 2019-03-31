@@ -39,7 +39,7 @@ void ball_mechanics(bool goal) {
             BALL.velocity_x *= -1;     
             BALL.velocity_y *= -1; 
             check_more = false;      
-        }
+        }  
         else if(check_more) {
             int i;
             for(i = 0; i < 2; i++) {

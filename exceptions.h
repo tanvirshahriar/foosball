@@ -7,6 +7,10 @@
 
 #define		CPU0	    0x01	// bit-mask; bit 0 represents cpu0
 #define		ENABLE		0x1
+#define		SVC_MODE	0b10011
+#define	    KEYS_IRQ	73
+#define	    PS2_IRQ		79
+#define		INT_ENABLE	0b01000000
 
 // Declarations.
 extern int ps2_byte_1, ps2_byte_2, ps2_byte_3;
