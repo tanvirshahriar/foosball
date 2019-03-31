@@ -58,8 +58,8 @@ void initialize_field() {
     // init BALL
     BALL.x = X_EDGE/2 - 1;
     BALL.y = Y_EDGE/2 - 1;
-    BALL.velocity_x = (rand() % 2) * pow(-1, rand());
-    BALL.velocity_y = (rand() % 2) * pow(-1, rand());
+    if((rand() % 2) == 0) BALL.velocity_x = -1;
+    else BALL.velocity_x = 1;
 
     // init gk
     GK_BLUE.x = 20;

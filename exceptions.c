@@ -33,9 +33,9 @@ void __attribute__ ((interrupt)) __cs3_isr_irq (void)
 	int int_ID = *((int *) address); 
    
 	if (int_ID == KEYS_IRQ)	// check if interrupt is from the private timer
-		KEY_ISR ();
+		KEY_ISR();
 	else if (int_ID == PS2_IRQ)				// check if interrupt is from the PS/2
-		PS2_ISR ();
+		PS2_ISR();
 	else
 		while (1);									// if unexpected, then halt
 
@@ -106,6 +106,9 @@ void PS2_ISR() {
         else if(ps2_byte_2 == 0xF0 && ps2_byte_3 == 0x1B) {
             p2_move(1); // S
         }
+        else if(ps2_byte_2 == 0xF0 && ps2_byte_3 == 0x2D) {
+            reset = 1;  // R
+        }
         else {
             return;
         }
@@ -174,7 +177,7 @@ void p2_move(int pos_change) {
 
 // KEYs service routine.
 void KEY_ISR() {
-    while(1);
+    reset = 1;
 }
 
 /*--------------From the DE1-SoC Manual-----------------------*/

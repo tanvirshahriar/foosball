@@ -2,7 +2,9 @@
 #define UTILS_H
 
 #include "globals.h"
+#include "address_map_arm.h"
 #include <stdbool.h>
+#include <stdlib.h>
 
 // Forward declarations.
 extern int p1_score, p2_score;
@@ -13,6 +15,7 @@ extern Players ATK_BLUE[3], ATK_RED[3];
 extern Ball BALL;
 
 void swap(int *x, int *y);
-void ball_mechanics(bool goal);
+void ball_mechanics();
+void HEX(int b1, int b2, int b3);
 
 #endif

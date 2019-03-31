@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include <stdlib.h>
+#include <time.h>
 
 // Forward declarations.
 extern volatile int pixel_buffer_start;
