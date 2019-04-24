@@ -60,6 +60,7 @@ void initialize_field() {
     BALL.y = Y_EDGE/2 - 1;
     if((rand() % 2) == 0) BALL.velocity_x = -1;
     else BALL.velocity_x = 1;
+	BALL.velocity_y = 0;
 
     // init gk
     GK_BLUE.x = 20;
@@ -116,10 +117,16 @@ void draw_field() {
     int i, j, k;
 
     // green field
-    for(i = 0; i < X_EDGE; i++) 
-        for(j = 0; j < Y_EDGE; j++) 
-            plot_pixel(i, j, 0x07E0); // Green yo
+    //for(i = 0; i < X_EDGE; i++) 
+    //    for(j = 0; j < Y_EDGE; j++) 
+    //        plot_pixel(i, j, 0x07E0); // Green yo
 
+	//volatile short *pixelbuf = 0xc8000000;
+	// GOD RONALDO.
+	for(i = 0; i < Y_EDGE; i++)
+		for(j = 0; j < X_EDGE; j++)
+			plot_pixel(j, i, GOAT[i][j]);
+	
     // goal post
     for(i = 0; i < 5; i++) {
         for(j = (Y_EDGE/2)-10; j < (Y_EDGE/2)+10; j++) {
@@ -131,45 +138,61 @@ void draw_field() {
     // BALL
     for(i = BALL.x - 2; i <= BALL.x + 2; i++)
         for(j = BALL.y - 2; j <= BALL.y + 2; j++)
-            plot_pixel(i, j, 0x41A5); // Greyish
+            plot_pixel(i, j, 0xFF60); // Greyish
 
     // players
     for(i = GK_BLUE.x - X_LEN; i <= GK_BLUE.x + X_LEN; i++)
-        for(j = GK_BLUE.y - Y_LEN; j <= GK_BLUE.y + Y_LEN; j++)
-            plot_pixel(i, j, 0x14BC); // Blue
-    
+        for(j = GK_BLUE.y - Y_LEN; j <= GK_BLUE.y + Y_LEN; j++) {
+            if(p1_sel == 0) plot_pixel(i, j, 0x1672); // Teal
+			else plot_pixel(i, j, 0x14BC); // Blue
+		}
+		
     for(i = GK_RED.x - X_LEN; i <= GK_RED.x + X_LEN; i++)
-        for(j = GK_RED.y - Y_LEN; j <= GK_RED.y + Y_LEN; j++)
-            plot_pixel(i, j, 0xF1E0); // Red
-    
+        for(j = GK_RED.y - Y_LEN; j <= GK_RED.y + Y_LEN; j++){
+			if(p2_sel == 3) plot_pixel(i,j,0xE34D);// Light Red
+            else plot_pixel(i, j, 0xF1E0); // Red
+		}
     // Def.
     for(k = 0; k < 2; k++)
         for(i = DEF_BLUE[k].x - X_LEN; i <= DEF_BLUE[k].x + X_LEN; i++)
-            for(j = DEF_BLUE[k].y - Y_LEN; j <= DEF_BLUE[k].y + Y_LEN; j++)
-                plot_pixel(i, j, 0x14BC); // Blue
-    
+            for(j = DEF_BLUE[k].y - Y_LEN; j <= DEF_BLUE[k].y + Y_LEN; j++) {
+                if(p1_sel == 1) plot_pixel(i, j, 0x1672); // Teal
+				else plot_pixel(i, j, 0x14BC); // Blue
+			}
+			
     for(k = 0; k < 2; k++)
         for(i = DEF_RED[k].x - X_LEN; i <= DEF_RED[k].x + X_LEN; i++)
-            for(j = DEF_RED[k].y - Y_LEN; j <= DEF_RED[k].y + Y_LEN; j++)
-                plot_pixel(i, j, 0xF1E0); // Red
+            for(j = DEF_RED[k].y - Y_LEN; j <= DEF_RED[k].y + Y_LEN; j++){
+				if(p2_sel == 2) plot_pixel(i,j,0xE34D);// Light Red
+				else plot_pixel(i, j, 0xF1E0); // Red
+			}
     
     // Mid.
     for(k = 0; k < 4; k++)
         for(i = MID_BLUE[k].x - X_LEN; i <= MID_BLUE[k].x + X_LEN; i++)
-            for(j = MID_BLUE[k].y - Y_LEN; j <= MID_BLUE[k].y + Y_LEN; j++)
-                plot_pixel(i, j, 0x14BC); // Blue
+            for(j = MID_BLUE[k].y - Y_LEN; j <= MID_BLUE[k].y + Y_LEN; j++){
+				if(p1_sel == 2) plot_pixel(i, j, 0x1672); // Teal
+				else plot_pixel(i, j, 0x14BC); // Blue
+			}
     for(k = 0; k < 4; k++)
         for(i = MID_RED[k].x - X_LEN; i <= MID_RED[k].x + X_LEN; i++)
-            for(j = MID_RED[k].y - Y_LEN; j <= MID_RED[k].y + Y_LEN; j++)
-                plot_pixel(i, j, 0xF1E0); // Red
+            for(j = MID_RED[k].y - Y_LEN; j <= MID_RED[k].y + Y_LEN; j++){
+				if(p2_sel == 1) plot_pixel(i,j,0xE34D);// Light Red
+				else plot_pixel(i, j, 0xF1E0); // Red
+			}
+			
     
     // Atk.
     for(k = 0; k < 3; k++)
         for(i = ATK_BLUE[k].x - X_LEN; i <= ATK_BLUE[k].x + X_LEN; i++)
-            for(j = ATK_BLUE[k].y - Y_LEN; j <= ATK_BLUE[k].y + Y_LEN; j++)
-                plot_pixel(i, j, 0x14BC); // Blue
+            for(j = ATK_BLUE[k].y - Y_LEN; j <= ATK_BLUE[k].y + Y_LEN; j++){
+				if(p1_sel == 3) plot_pixel(i, j, 0x1672); // Teal
+				else plot_pixel(i, j, 0x14BC); // Blue
+			}
     for(k = 0; k < 3; k++)
         for(i = ATK_RED[k].x - X_LEN; i <= ATK_RED[k].x + X_LEN; i++)
-            for(j = ATK_RED[k].y - Y_LEN; j <= ATK_RED[k].y + Y_LEN; j++)
-                plot_pixel(i, j, 0xF1E0); // Red
+            for(j = ATK_RED[k].y - Y_LEN; j <= ATK_RED[k].y + Y_LEN; j++){
+				if(p2_sel == 0) plot_pixel(i,j,0xE34D);// Light Red
+				else plot_pixel(i, j, 0xF1E0); // Red
+			}
 }

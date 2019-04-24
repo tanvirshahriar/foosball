@@ -17,7 +17,7 @@ void wait_for_vsync();
 
 // Forward declarations.
 int p1_sel=0, p2_sel=3;
-int p1_score=0, p2_score=0;
+int p1_score=0, p2_score=0, time_now=0;
 volatile int pixel_buffer_start;
 int ps2_byte_1, ps2_byte_2, ps2_byte_3, goal=0, reset=0;
 Players GK_BLUE, GK_RED;
@@ -31,6 +31,7 @@ int main(void) {
     set_A9_IRQ_stack();
     config_GIC();
     config_PS2();
+	config_MPcore_private_timer();
 
     enable_A9_interrupts();
     
@@ -53,7 +54,7 @@ int main(void) {
     initialize_field();
     // Initialize Timer.
     //time_t timer = time(NULL);
-    int display_time = 0;   // Game time in minutes.
+    //int display_time = 0;   // Game time in minutes.
 
     // All drawing goes in this loop.
     while (1) {
@@ -67,6 +68,7 @@ int main(void) {
             // display_time = 0;
             p1_score = 0;
             p2_score = 0;
+			time_now = 0;
             reset = 0;
         }
         else if(goal == 1) {
@@ -82,7 +84,7 @@ int main(void) {
         //     display_time++;
         // }
 
-        HEX(p1_score, p2_score, display_time);
+        HEX(p1_score, p2_score, time_now);
 
         wait_for_vsync(); // Swap front and back buffers on VGA vertical sync.
         pixel_buffer_start = *(pixel_ctrl_ptr + 1); // New back buffer.

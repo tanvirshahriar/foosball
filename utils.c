@@ -162,11 +162,18 @@ void ball_mechanics() {
     BALL.y += BALL.velocity_y;
 }
 
-/*Sample code provided in monitor program*/
 void HEX(int b1, int b2, int b3) {
     volatile int * HEX3_HEX0_ptr = (int *)HEX3_HEX0_BASE;
     volatile int * HEX5_HEX4_ptr = (int *)HEX5_HEX4_BASE;
-
+	
+	//New vars
+	int b1_a = b1 % 10;
+	int b1_b = b1 / 10;
+	int b2_a = b2 % 10;
+	int b2_b = b2 / 10;
+	int b3_a = b3 % 10;
+	int b3_b = b3 / 10;
+	
     /* SEVEN_SEGMENT_DECODE_TABLE gives the on/off settings for all segments in
      * a single 7-seg display in the DE2 Media Computer, for the hex digits 0 -
      * F */
@@ -178,7 +185,7 @@ void HEX(int b1, int b2, int b3) {
     unsigned char code;
     int           i;
 
-    shift_buffer = (b1 << 16) | (b2 << 8) | b3;
+    shift_buffer = (b3_b << 20) | (b3_a << 16) | (b1_b << 12) | (b1_a << 8) | (b2_b << 4) | b2_a;
     for (i = 0; i < 6; ++i) {
         nibble = shift_buffer & 0x0000000F; // character is in rightmost nibble
         code   = seven_seg_decode_table[nibble];

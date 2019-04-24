@@ -16,7 +16,7 @@ extern int ps2_byte_1, ps2_byte_2, ps2_byte_3;
 
 extern int p1_score, p2_score;
 extern int p1_sel, p2_sel;
-extern int goal, reset;
+extern int goal, reset, time_now;
 extern Players GK_BLUE, GK_RED;
 extern Players DEF_BLUE[2], DEF_RED[2];
 extern Players MID_BLUE[4], MID_RED[4];

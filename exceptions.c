@@ -36,6 +36,8 @@ void __attribute__ ((interrupt)) __cs3_isr_irq (void)
 		KEY_ISR();
 	else if (int_ID == PS2_IRQ)				// check if interrupt is from the PS/2
 		PS2_ISR();
+	else if (int_ID == MPCORE_PRIV_TIMER_IRQ)
+		Timer_ISR();
 	else
 		while (1);									// if unexpected, then halt
 
@@ -63,6 +65,18 @@ void config_KEYs() {
     *(KEY_ptr + 2) = 0xF; // enable interrupts for all four KEYs
 }
 
+/* setup private timer in the ARM A9 */
+void config_MPcore_private_timer() {
+    volatile int * MPcore_private_timer_ptr =
+        (int *)MPCORE_PRIV_TIMER; // timer base address
+
+    /* set the timer period */
+    int counter = 200000000; // period = 1/(200 MHz) x 2x10^8 = 0.1 sec
+    *(MPcore_private_timer_ptr) = counter; // write to timer load register
+
+    /* write to control register to start timer, with interrupts */
+    *(MPcore_private_timer_ptr + 2) = 0x7; // int mask = 1, mode = 1, enable = 1
+}
 
 // PS2 service routine.
 void PS2_ISR() {
@@ -94,16 +108,16 @@ void PS2_ISR() {
             if(p2_sel == 0) p2_sel = 3;
             else p2_sel--; // A
         }
-        else if(ps2_byte_1 == 0xE0 && ps2_byte_2 == 0xF0 && ps2_byte_3 == 0x75) {
+        else if(ps2_byte_2 == 0xE0 && ps2_byte_3 == 0x75) {
             p1_move(-1); // UP
         }
-        else if(ps2_byte_1 == 0xE0 && ps2_byte_2 == 0xF0 && ps2_byte_3 == 0x72) {
+        else if(ps2_byte_2 == 0xE0 && ps2_byte_3 == 0x72) {
             p1_move(1); // DOWN
         }
-        else if(ps2_byte_2 == 0xF0 && ps2_byte_3 == 0x1D) {
+        else if(ps2_byte_3 == 0x1D) {
             p2_move(-1); // W
         }
-        else if(ps2_byte_2 == 0xF0 && ps2_byte_3 == 0x1B) {
+        else if(ps2_byte_3 == 0x1B) {
             p2_move(1); // S
         }
         else if(ps2_byte_2 == 0xF0 && ps2_byte_3 == 0x2D) {
@@ -113,6 +127,19 @@ void PS2_ISR() {
             return;
         }
     }
+}
+
+void Timer_ISR( )
+{
+	volatile int * MPcore_private_timer_ptr = (int *) MPCORE_PRIV_TIMER;	// private timer address
+
+	*(MPcore_private_timer_ptr + 3) = 1;	// Write to timer interrupt status register to
+														// clear the interrupt (note: not really necessary)
+
+	if(time_now == 59) time_now = 0;
+	else time_now += 1;									// set global variable
+
+	return;
 }
 
 // Move player 1 objects.
@@ -211,6 +238,7 @@ void config_GIC(void)
 	/* enable some examples of interrupts */
   	config_interrupt (KEYS_IRQ, CPU0);
   	config_interrupt (PS2_IRQ, CPU0);
+	config_interrupt (MPCORE_PRIV_TIMER_IRQ, CPU0);
 
   	// Set Interrupt Priority Mask Register (ICCPMR). Enable interrupts for lowest priority 
 	address = MPCORE_GIC_CPUIF + ICCPMR;

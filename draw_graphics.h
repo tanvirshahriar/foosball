@@ -11,11 +11,13 @@
 
 // Forward declarations.
 extern volatile int pixel_buffer_start;
+extern int p1_score, p2_score;
 extern Players GK_BLUE, GK_RED;
 extern Players DEF_BLUE[2], DEF_RED[2];
 extern Players MID_BLUE[4], MID_RED[4];
 extern Players ATK_BLUE[3], ATK_RED[3];
 extern Ball BALL;
+extern short GOAT [240][320];
 
 // Graphics functions.
 void plot_pixel(int x, int y, short int line_color);

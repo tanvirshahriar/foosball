@@ -10,6 +10,7 @@
 #define		SVC_MODE	0b10011
 #define	    KEYS_IRQ	73
 #define	    PS2_IRQ		79
+#define	MPCORE_PRIV_TIMER_IRQ	29
 #define		INT_ENABLE	0b01000000
 
 // Declarations.
@@ -26,12 +27,14 @@ void config_GIC(void);
 void enable_A9_interrupts(void);
 void config_KEYs();
 void config_PS2();
+void config_MPcore_private_timer();
 void config_interrupt (int int_ID, int CPU_target);
 void hw_write_bits(volatile int * addr, volatile int unmask, volatile int value);
 
 // Service Routines.
 void PS2_ISR();
 void KEY_ISR();
+void Timer_ISR();
 void p1_move(int pos_change);
 void p2_move(int pos_change);
 
